@@ -107,9 +107,12 @@ class _ImageGalleryState extends State<ImageGallery> {
   }
 
   // Opens an image in full screen with an animation.
-  void _openFullScreen(BuildContext context, String imageUrl) {
+  void _openFullScreen(BuildContext context, String imageUrl, String previewText) {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => FullScreenImage(image: imageUrl),
+      builder: (context) => FullScreenImage(
+        image: imageUrl,
+        previewText: previewText,
+      ),
     ));
   }
 
@@ -156,7 +159,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                 final image = _images[index];
 
                 return GestureDetector(
-                  onTap: () => _openFullScreen(context, image['largeImageURL']),
+                  onTap: () => _openFullScreen(context, image['largeImageURL'], image['tags']),
                   child: GridTile(
                     footer: GridTileBar(
                       backgroundColor: const Color.fromARGB(136, 36, 36, 36),
