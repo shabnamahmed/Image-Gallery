@@ -2,15 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'full_screen.dart';
 
-/// A page that displays a grid gallery of images from the Pixabay API.
-///
-/// The number of columns are based on the screen size.
+// A page that displays a grid gallery of images from the Pixabay API.
+
+// The number of columns are based on the screen size.
 class ImageGallery extends StatefulWidget {
   /// Creates an [ImageGallery] widget.
   const ImageGallery({super.key});
@@ -20,28 +19,28 @@ class ImageGallery extends StatefulWidget {
 }
 
 class _ImageGalleryState extends State<ImageGallery> {
-  /// The API key to access Pixabay's image service.
+  // The API key to access Pixabay's image service.
   final String _apiKey = '44697066-abab405d02c53e0fdb77a71a9';
 
-  /// The list of images loaded from the Pixabay API.
+  // The list of images loaded from the Pixabay API.
   List<dynamic> _images = [];
 
-  /// The current search text used to filter the images.
+  // The current search text used to filter the images.
   String _searchText = '';
 
-  /// The current page.
+  // The current page.
   int _currentPage = 1;
 
-  /// Total number of pages.
+  // Total number of pages.
   int _totalPages = 1;
 
-  /// Indicates if more images are being loaded from the API.
+  // Indicates if more images are being loaded from the API.
   bool _isLoading = false;
 
-  /// Scroll controller to detect when to load more images.
+  // Scroll controller to detect when to load more images.
   final ScrollController _scrollController = ScrollController();
 
-  /// Timer used for debouncing the search input.
+  // Timer used for debouncing the search input.
   Timer? _debounce;
 
   @override
@@ -58,7 +57,7 @@ class _ImageGalleryState extends State<ImageGallery> {
     super.dispose();
   }
 
-  /// Fetches images from the Pixabay API.
+  // Fetches images from the Pixabay API.
   Future<void> _getImages({bool loadMore = false}) async {
     if (_isLoading || _currentPage > _totalPages) return;
 
@@ -88,26 +87,26 @@ class _ImageGalleryState extends State<ImageGallery> {
     });
   }
 
-  /// detect when more images should be loaded.
+  // detect when more images should be loaded.
   void _onScroll() {
     if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
       _getImages(loadMore: true);
     }
   }
 
-  /// search
-  void _updateSearchQuery(String query) {
+  // search
+  void _updateSearchQuery(String text) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
       setState(() {
-        _searchText = query;
+        _searchText = text;
         _currentPage = 1;
       });
-      _getImages(); // get filtered images
+      _getImages(); // get images based on searched text
     });
   }
 
-  /// Opens an image in full screen with an animation.
+  // Opens an image in full screen with an animation.
   void _openFullScreen(BuildContext context, String imageUrl) {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => FullScreenImage(image: imageUrl),

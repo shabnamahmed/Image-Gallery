@@ -1,18 +1,15 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+// A page that displays an image in full screen with an animation.
 
-/// A page that displays an image in full screen with an animation.
-///
-/// The image is loaded using the [FadeInImage] widget for a smooth transition.
+// The image is loaded using the [FadeInImage] widget for a smooth transition.
 class FullScreenImage extends StatelessWidget {
-  /// The URL of the image to display.
+  // The URL of the image to display.
   final String image;
 
-  /// Creates a [FullScreenImage] widget with the given [image].
-  const FullScreenImage({Key? key, required this.image}) : super(key: key);
+  // Creates a [FullScreenImage] widget with the given [image].
+  const FullScreenImage({super.key, required this.image});
 
   @override
   Widget build(BuildContext context) {
