@@ -12,13 +12,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      color: Colors.blue.shade400,
+    return const MaterialApp(
       title: 'Pixabay Image Gallery',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const ImageGallery(),
+      home: ImageGallery(),
     );
   }
 }
