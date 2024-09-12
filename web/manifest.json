@@ -1,6 +1,6 @@
 {
-    "name": "pixaby_image_gallery",
-    "short_name": "pixaby_image_gallery",
+    "name": "image_gallery",
+    "short_name": "image_gallery",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

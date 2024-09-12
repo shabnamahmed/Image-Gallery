@@ -1,4 +1,4 @@
-# pixaby_image_gallery
+# image_gallery
 
 A new Flutter project.
 
