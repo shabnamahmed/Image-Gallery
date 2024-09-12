@@ -77,8 +77,11 @@ class _ImageGalleryState extends State<ImageGallery> {
         } else {
           _images = list['hits'];
         }
-        _totalPages = (list['totalHits'] / 20);
+        _totalPages = (list['totalHits'] / 20).ceil();
         _currentPage++;
+        // if(_searchText.isEmpty){
+        //   _images = list['hits'];
+        // }
       });
     }
 
@@ -96,6 +99,7 @@ class _ImageGalleryState extends State<ImageGallery> {
 
   // search
   void _updateSearchQuery(String text) {
+    print('text $text');
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
       setState(() {
@@ -107,11 +111,12 @@ class _ImageGalleryState extends State<ImageGallery> {
   }
 
   // Opens an image in full screen with an animation.
-  void _openFullScreen(BuildContext context, String imageUrl, String previewText) {
+  void _openFullScreen(BuildContext context, String imageUrl, String previewText,String name) {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => FullScreenImage(
         image: imageUrl,
         previewText: previewText,
+        imageName: name,
       ),
     ));
   }
@@ -124,7 +129,10 @@ class _ImageGalleryState extends State<ImageGallery> {
       appBar: AppBar(
         backgroundColor: Colors.blue.shade400,
         foregroundColor: Colors.white,
-        title: const Text('Image Gallery'),
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [Text('Image Gallery'), Text('By: Shabnam Naseem Ahmed')],
+        ),
       ),
       body: Column(
         children: <Widget>[
@@ -140,42 +148,64 @@ class _ImageGalleryState extends State<ImageGallery> {
             ),
           ),
           Expanded(
-            child: GridView.builder(
-              padding: const EdgeInsets.all(8.0),
-              controller: _scrollController,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: crossAxisCount,
-                crossAxisSpacing: 8.0,
-                mainAxisSpacing: 8.0,
-              ),
-              itemCount: _images.length + (_isLoading ? 1 : 0),
-              itemBuilder: (BuildContext context, int index) {
-                if (index == _images.length) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-
-                final image = _images[index];
-
-                return GestureDetector(
-                  onTap: () => _openFullScreen(context, image['largeImageURL'], image['tags']),
-                  child: GridTile(
-                    footer: GridTileBar(
-                      backgroundColor: const Color.fromARGB(136, 36, 36, 36),
-                      title: Text('${image['likes']} likes'),
-                      subtitle: Text('${image['views']} views'),
+            child: _images.isNotEmpty || _searchText.isEmpty
+                ? GridView.builder(
+                    padding: const EdgeInsets.all(8.0),
+                    controller: _scrollController,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxisCount,
+                      crossAxisSpacing: 8.0,
+                      mainAxisSpacing: 8.0,
                     ),
-                    child: CachedNetworkImage(
-                      imageUrl: image['previewURL'],
-                      placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                );
-              },
-            ),
+                    itemCount: _images.length + (_isLoading ? 1 : 0),
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index == _images.length) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+
+                      final image = _images[index];
+
+                      return GestureDetector(
+                        onTap: () => _openFullScreen(context, image['largeImageURL'], image['tags'],image['previewURL'].toString().split('/').last),
+                        child: GridTile(
+                          footer: GridTileBar(
+                            backgroundColor: const Color.fromARGB(136, 36, 36, 36),
+                            title: Row(
+                              children: [
+                                const Icon(Icons.favorite, size: 15),
+                                const SizedBox(
+                                  width: 3,
+                                ),
+                                Text('${image['likes']} likes'),
+                              ],
+                            ),
+                            subtitle: Row(
+                              children: [
+                                const Icon(Icons.visibility, size: 15),
+                                const SizedBox(
+                                  width: 3,
+                                ),
+                                Text('${image['views']} views'),
+                              ],
+                            ),
+                          ),
+                          child: CachedNetworkImage(
+                            imageUrl: image['previewURL'],
+                            placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
+                  )
+                : const Center(
+                    child: Text(
+                    "No Images found!",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  )),
           ),
         ],
       ),

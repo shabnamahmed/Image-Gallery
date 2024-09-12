@@ -4,12 +4,9 @@ import 'package:transparent_image/transparent_image.dart';
 class FullScreenImage extends StatelessWidget {
   final String image;
   final String previewText;
+  final String imageName;
 
-  const FullScreenImage({
-    super.key,
-    required this.image,
-    required this.previewText,
-  });
+  const FullScreenImage({super.key, required this.image, required this.previewText, required this.imageName});
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +46,77 @@ class FullScreenImage extends StatelessWidget {
               onPressed: () => Navigator.of(context).pop(),
             ),
           ),
+          // Positioned(
+          //   top: 50,
+          //   right: 20,
+          //   child: IconButton(
+          //     icon: const Icon(Icons.download, color: Colors.white),
+          //     onPressed: () => {_showPopup(context, true)},
+          //   ),
+          // ),
+          // Positioned(
+          //   top: 80,
+          //   right: 20,
+          //   child: IconButton(
+          //     icon: const Icon(
+          //       Icons.share_rounded,
+          //       color: Colors.white,
+          //       size: 18,
+          //     ),
+          //     onPressed: () => {_showPopup(context, false)},
+          //   ),
+          // ),
         ],
       ),
+    );
+  }
+
+  void _showPopup(BuildContext context, bool isDownload) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Column(
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    isDownload ? Icons.download : Icons.share,
+                    size: 15,
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    isDownload ? 'Downloading.....' : 'Share',
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                ],
+              ),
+              const Divider(),
+              const SizedBox(
+                height: 18,
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  imageName,
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(fontSize: 12),
+                ),
+              )
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the popup
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
