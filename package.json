@@ -1,5 +1,5 @@
 {
-  "name": "your-flutter-project",
+  "name": "image-gallery",
   "version": "1.0.0",
   "scripts": {
     "deploy": "gh-pages -d build/web"
