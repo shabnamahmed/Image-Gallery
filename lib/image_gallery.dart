@@ -78,7 +78,7 @@ class _ImageGalleryState extends State<ImageGallery> {
         } else {
           _images = list['hits'];
         }
-        _totalPages = (list['totalHits'] / 20).ceil();
+        _totalPages = (list['totalHits'] / 20);
         _currentPage++;
       });
     }
