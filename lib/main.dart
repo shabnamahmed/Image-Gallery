@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'package:flutter/material.dart';
-import './image_gallery.dart'
 
+import 'image_gallery.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,6 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      color: Colors.blue.shade400,
       title: 'Pixabay Image Gallery',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -24,4 +22,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

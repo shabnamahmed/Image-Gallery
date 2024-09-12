@@ -1,13 +1,19 @@
+import 'dart:async';
+import 'dart:convert';
 
-import 'package:http/http.dart' as http;
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:transparent_image/transparent_image.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import 'full_screen.dart';
+
 /// A page that displays a grid gallery of images from the Pixabay API.
 ///
 /// The number of columns are based on the screen size.
 class ImageGallery extends StatefulWidget {
   /// Creates an [ImageGallery] widget.
-  const ImageGallery({Key? key}) : super(key: key);
+  const ImageGallery({super.key});
 
   @override
   _ImageGalleryState createState() => _ImageGalleryState();
@@ -15,8 +21,8 @@ class ImageGallery extends StatefulWidget {
 
 class _ImageGalleryState extends State<ImageGallery> {
   /// The API key to access Pixabay's image service.
-  final String _apiKey = 'YOUR_PIXABAY_API_KEY';
-  
+  final String _apiKey = '44697066-abab405d02c53e0fdb77a71a9';
+
   /// The list of images loaded from the Pixabay API.
   List<dynamic> _images = [];
 
@@ -61,8 +67,7 @@ class _ImageGalleryState extends State<ImageGallery> {
     });
 
     final api = _searchText.isNotEmpty ? '&q=$_searchText' : '';
-    final response = await http.get(Uri.parse(
-        'https://pixabay.com/api/?key=$_apiKey&page=$_currentPage&per_page=20$api'));
+    final response = await http.get(Uri.parse('https://pixabay.com/api/?key=$_apiKey&page=$_currentPage&per_page=20$api'));
 
     if (response.statusCode == 200) {
       final list = json.decode(response.body) as Map<String, dynamic>;
@@ -85,13 +90,12 @@ class _ImageGalleryState extends State<ImageGallery> {
 
   /// detect when more images should be loaded.
   void _onScroll() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
       _getImages(loadMore: true);
     }
   }
 
-  /// search 
+  /// search
   void _updateSearchQuery(String query) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
@@ -106,16 +110,18 @@ class _ImageGalleryState extends State<ImageGallery> {
   /// Opens an image in full screen with an animation.
   void _openFullScreen(BuildContext context, String imageUrl) {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => FullScreenImage(imageUrl: imageUrl),
+      builder: (context) => FullScreenImage(image: imageUrl),
     ));
   }
 
   @override
   Widget build(BuildContext context) {
-    final crossAxisCount = (MediaQuery.of(context).size.width / 150).round();
+    final crossAxisCount = (MediaQuery.of(context).size.width / 200).round();
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue.shade400,
+        foregroundColor: Colors.white,
         title: const Text('Image Gallery'),
       ),
       body: Column(
@@ -154,16 +160,14 @@ class _ImageGalleryState extends State<ImageGallery> {
                   onTap: () => _openFullScreen(context, image['largeImageURL']),
                   child: GridTile(
                     footer: GridTileBar(
-                      backgroundColor: Colors.black54,
+                      backgroundColor: const Color.fromARGB(136, 36, 36, 36),
                       title: Text('${image['likes']} likes'),
                       subtitle: Text('${image['views']} views'),
                     ),
                     child: CachedNetworkImage(
                       imageUrl: image['previewURL'],
-                      placeholder: (context, url) =>
-                          const Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                      placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
                       fit: BoxFit.cover,
                     ),
                   ),

@@ -1,3 +1,9 @@
+
+
+import 'package:flutter/material.dart';
+import 'package:transparent_image/transparent_image.dart';
+
+
 /// A page that displays an image in full screen with an animation.
 ///
 /// The image is loaded using the [FadeInImage] widget for a smooth transition.
