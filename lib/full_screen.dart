@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -46,26 +47,40 @@ class FullScreenImage extends StatelessWidget {
               onPressed: () => Navigator.of(context).pop(),
             ),
           ),
-          // Positioned(
-          //   top: 50,
-          //   right: 20,
-          //   child: IconButton(
-          //     icon: const Icon(Icons.download, color: Colors.white),
-          //     onPressed: () => {_showPopup(context, true)},
-          //   ),
-          // ),
-          // Positioned(
-          //   top: 80,
-          //   right: 20,
-          //   child: IconButton(
-          //     icon: const Icon(
-          //       Icons.share_rounded,
-          //       color: Colors.white,
-          //       size: 18,
-          //     ),
-          //     onPressed: () => {_showPopup(context, false)},
-          //   ),
-          // ),
+          Positioned(
+            top: 50,
+            right: 20,
+            child: IconButton(
+              icon: const Icon(Icons.download, color: Colors.white),
+              onPressed: () => {_showPopup(context, true)},
+            ),
+          ),
+          Positioned(
+            top: 80,
+            right: 20,
+            child: IconButton(
+              icon: const Icon(
+                Icons.share_rounded,
+                color: Colors.white,
+                size: 18,
+              ),
+              onPressed: () => {
+                if (kIsWeb)
+                  {_showPopup(context, false)}
+                else
+                  {
+                    showBottomSheet(
+                      builder: (context) {
+                        return Container(
+                          child: Text("Send the Image $imageName"),
+                        );
+                      },
+                      context: context,
+                    )
+                  }
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -76,6 +91,8 @@ class FullScreenImage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          contentPadding: const EdgeInsets.all(10),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           title: Column(
             children: [
               Row(
@@ -95,7 +112,7 @@ class FullScreenImage extends StatelessWidget {
               ),
               const Divider(),
               const SizedBox(
-                height: 18,
+                height: 28,
               ),
               Align(
                 alignment: Alignment.bottomLeft,
@@ -108,11 +125,17 @@ class FullScreenImage extends StatelessWidget {
             ],
           ),
           actions: <Widget>[
-            TextButton(
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll<Color>(Colors.blue.shade400),
+                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)))),
               onPressed: () {
                 Navigator.of(context).pop(); // Close the popup
               },
-              child: const Text('OK'),
+              child: const Text(
+                'OK',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         );
