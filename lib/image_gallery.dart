@@ -111,7 +111,7 @@ class _ImageGalleryState extends State<ImageGallery> {
   }
 
   // Opens an image in full screen with an animation.
-  void _openFullScreen(BuildContext context, String imageUrl, String previewText,String name) {
+  void _openFullScreen(BuildContext context, String imageUrl, String previewText, String name) {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => FullScreenImage(
         image: imageUrl,
@@ -148,7 +148,7 @@ class _ImageGalleryState extends State<ImageGallery> {
             ),
           ),
           Expanded(
-            child: _images.isNotEmpty || _searchText.isEmpty
+            child: _images.isNotEmpty
                 ? GridView.builder(
                     padding: const EdgeInsets.all(8.0),
                     controller: _scrollController,
@@ -168,7 +168,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                       final image = _images[index];
 
                       return GestureDetector(
-                        onTap: () => _openFullScreen(context, image['largeImageURL'], image['tags'],image['previewURL'].toString().split('/').last),
+                        onTap: () => _openFullScreen(context, image['largeImageURL'], image['tags'], image['previewURL'].toString().split('/').last),
                         child: GridTile(
                           footer: GridTileBar(
                             backgroundColor: const Color.fromARGB(136, 36, 36, 36),

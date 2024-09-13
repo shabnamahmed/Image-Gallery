@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -43,12 +42,14 @@ class FullScreenImage extends StatelessWidget {
             top: 20,
             right: 20,
             child: IconButton(
-              icon: const Icon(Icons.close, color: Colors.white),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
+                icon: const Icon(Icons.close, color: Colors.white),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                }),
           ),
           Positioned(
-            top: 50,
+            top: 55,
             right: 20,
             child: IconButton(
               icon: const Icon(Icons.download, color: Colors.white),
@@ -56,7 +57,7 @@ class FullScreenImage extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 80,
+            top: 85,
             right: 20,
             child: IconButton(
               icon: const Icon(
@@ -64,21 +65,7 @@ class FullScreenImage extends StatelessWidget {
                 color: Colors.white,
                 size: 18,
               ),
-              onPressed: () => {
-                if (kIsWeb)
-                  {_showPopup(context, false)}
-                else
-                  {
-                    showBottomSheet(
-                      builder: (context) {
-                        return Container(
-                          child: Text("Send the Image $imageName"),
-                        );
-                      },
-                      context: context,
-                    )
-                  }
-              },
+              onPressed: () => {_showPopup(context, false)},
             ),
           ),
         ],

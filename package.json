@@ -1,5 +1,5 @@
 {
-  "homepage": "https://github.com/shabnamahmed/Image-Gallery",
+  "homepage": "https://github.com/shabnamahmed/flutter-test-app",
   "scripts": {
     "deploy": "gh-pages -d build/web"
   },
