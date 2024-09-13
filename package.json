@@ -2,7 +2,7 @@
   "homepage": "https://github.com/shabnamahmed/Image-Gallery",
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build/web"
+    "deploy": "flutter build web && gh-pages -d build/web"
   },
   "name": "image-gallery",
   "version": "1.0.0",
