@@ -3,7 +3,7 @@
   "scripts": {
     "build": "react-scripts build",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build/web"
   },
   "name": "image-gallery",
   "version": "1.0.0",
