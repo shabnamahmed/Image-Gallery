@@ -79,9 +79,6 @@ class _ImageGalleryState extends State<ImageGallery> {
         }
         _totalPages = (list['totalHits'] / 20).ceil();
         _currentPage++;
-        // if(_searchText.isEmpty){
-        //   _images = list['hits'];
-        // }
       });
     }
 
@@ -99,13 +96,16 @@ class _ImageGalleryState extends State<ImageGallery> {
 
   // search
   void _updateSearchQuery(String text) {
-    print('text $text');
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
       setState(() {
         _searchText = text;
         _currentPage = 1;
       });
+      if (_searchText.isEmpty) {
+        _totalPages = 1;
+        _currentPage = 1;
+      }
       _getImages(); // get images based on searched text
     });
   }
