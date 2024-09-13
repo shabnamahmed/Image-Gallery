@@ -65,6 +65,8 @@ class _ImageGalleryState extends State<ImageGallery> {
       _isLoading = true;
     });
 
+    // simple comment
+
     final api = _searchText.isNotEmpty ? '&q=$_searchText' : '';
     final response = await http.get(Uri.parse('https://pixabay.com/api/?key=$_apiKey&page=$_currentPage&per_page=20$api'));
 
