@@ -1,7 +1,6 @@
 {
   "homepage": "https://github.com/shabnamahmed/Image-Gallery",
   "scripts": {
-    "build": "react-scripts build",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build/web"
   },
